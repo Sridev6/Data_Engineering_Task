@@ -1,0 +1,23 @@
+{
+  "decompress_and_clean" : {
+    "path" : "{task}/configs/decompress_and_clean.json"
+  },
+  "sample_users" : {
+    "path" : "{task}/configs/sample_users.json",
+    "dependencies": [
+      "decompress_and_clean"
+    ]
+  },
+  "sample_users_review" : {
+    "path" : "{task}/configs/sample_users_review.json",
+    "dependencies": [
+      "sample_users"
+    ]
+  },
+  "sample_users_no_review_within_time_interval" : {
+    "path" : "{task}/configs/sample_users_no_review_within_time_interval.json",
+    "dependencies": [
+      "sample_users"
+    ]
+  }
+}
