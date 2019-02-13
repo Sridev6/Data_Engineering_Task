@@ -1,4 +1,4 @@
-﻿# NewYoker : Data Engineering Exercise
+﻿# Data Engineering Exercise
 
 The exercise is designed to use Yelp dataset to complete a series of ETL tasks that is done on python without the usage of any standard frameworks like Spark, SQL Databases. The whole program is packaged on Docker so that it's a plug play thereby avoiding dependency issues and improve processing performance.
 
@@ -15,4 +15,4 @@ The abstraction layer is a custom built Task object that can be used to run any 
 * **Status** - Every task is provided with a state (IDLE, RUNNING, DENIED, SUCCESS, FAILURE) such that at any point in time we know the status of our job. 
 * **Configuration** - A configuration is a JSON file that direct the module to be read and certain useful parameters to run the task.
 
-![Diagram](http://jgraph.github.io/drawio-github/diagram.png)
+![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_abstraction.png)
