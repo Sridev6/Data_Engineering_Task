@@ -98,7 +98,18 @@ So, in order to run a module all we need to do is follow the above three steps a
 * **sample_users_review** - to get all reviews of sample users.
 * **sample_users_no_review_within_time_interval** - to get all user IDs who didn't write any review in the specified time interval. The time interval is specified inside the task configuration file.
 
-**Note** : Since there are IO dependencies for every module, it's required to run these modules in sequence. If not, an IO error will be thrown. 
+**Note** : Since there are IO dependencies for every module, it's required to run these modules in sequence. If not, an IO error will be thrown.
+
+**Important** : If tar file is named anything other than 'yelp_dataset.tar', then we can send the name of the tar file as one more argument to python script while running docker, as follows,
+
+```
+  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data {any_build_name} python -u main/task/execute.py {task} {yelp_filename}
+```
+An example run command on MAC will look like,
+
+```
+  docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data extract_module python -u main/task/execute.py review yelp_dataset_file_name.tar
+```
 
 <a name="execution-with-dag-object"></a>
 #### Execution with Dag object :
