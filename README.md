@@ -42,6 +42,7 @@ Initial contents of the folder,
  {ANY_DIRECTORY}/data/yelp_dataset.tar
   ```
 
+<br/>
 <a name="execution-with-task-objects"></a>
 #### Execution with Task objects :
 
@@ -111,6 +112,7 @@ An example run command on MAC will look like,
   docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data extract_module python -u main/task/execute.py review yelp_dataset_file_name.tar
 ```
 
+<br/>
 <a name="execution-with-dag-object"></a>
 #### Execution with Dag object :
 
