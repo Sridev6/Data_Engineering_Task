@@ -112,7 +112,8 @@ An example run command on MAC will look like,
   docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data extract_module python -u main/task/execute.py review yelp_dataset_file_name.tar
 ```
 
-<br/>
+<br>
+
 <a name="execution-with-dag-object"></a>
 #### Execution with Dag object :
 
