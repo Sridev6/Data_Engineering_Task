@@ -25,7 +25,11 @@ class Dag():
         for job, info in self.pipeline_definition.items():
             if 'dependencies' not in info:
                 self.pipeline_definition[job]['dependencies'] = None
-            tasks.append(Task(definition=read_file(info['path'].format(task=base_path)),
+            task_definition = read_file(info['path'].format(task=base_path))
+            if job == 'decompress_and_clean':
+                task_definition['filename'] = task_definition['filename'].format(
+                    tar_filename=self.pipeline_definition[job]['filename'])
+            tasks.append(Task(definition=task_definition,
                               name=job,
                               dependencies=info['dependencies']))
         return tasks

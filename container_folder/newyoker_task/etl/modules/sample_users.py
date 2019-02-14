@@ -29,27 +29,23 @@ class IO():
                 self.to_sample_users = int(json.loads(data)[USER_FILE] * (sample_percentage/100))
 
     def read_fle(self, filename):
-        assert check_fobj_exists(filename), "Sample User File not found in " + filename
+        assert check_fobj_exists(filename), "Cleaned User File not found in " + filename
         return read_file_line_by_line(filename)
 
     def _sample_users(self):
         """ Write x percentage of users to 'sample_users.csv file (with headers) '"""
-        try:
-            writer = None
-            for count, line in enumerate(self.read_fle(CLEANED_FILE_NAME_TEMPLATE + USER_FILE)):
-                if count < self.to_sample_users:
-                    data = json.loads(line)
-                    if count == 0:
-                        writer = csv.DictWriter(self.write_fileObj, data.keys())
-                        writer.writeheader()
-                    writer.writerow(data)
-        finally:
-            self.write_fileObj.close()
+        writer = None
+        for count, line in enumerate(self.read_fle(CLEANED_FILE_NAME_TEMPLATE + USER_FILE)):
+            if count < self.to_sample_users:
+                data = json.loads(line)
+                if count == 0:
+                    writer = csv.DictWriter(self.write_fileObj, data.keys())
+                    writer.writeheader()
+                writer.writerow(data)
+        self.write_fileObj.close()
 
     def run(self):
-        try:
-            start_time = time.time()
-            self._sample_users()
-            print("--- %s seconds ---" % (time.time() - start_time))
-        finally:
-            module_format(self.definition['name'], type=1)
+        start_time = time.time()
+        self._sample_users()
+        print("--- %s seconds ---" % (time.time() - start_time))
+        module_format(self.definition['name'], type=1)

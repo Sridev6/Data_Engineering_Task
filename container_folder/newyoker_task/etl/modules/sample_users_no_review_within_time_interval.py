@@ -8,16 +8,13 @@ from etl.modules import SAMPLE_USERS_FILE, \
 from etl.utils.commons import module_format, read_file, check_fobj_exists, \
     delete_folder, create_directory
 
-# Load sample users
-assert check_fobj_exists(SAMPLE_USERS_FILE), "SAmple users File not found in " + SAMPLE_USERS_FILE
-SAMPLE_USERS = read_file(SAMPLE_USERS_FILE, header=SAMPLE_USERS_ID_FIELD)
 
 def process_file(chunk_info):
     """ For every review chuck (dataframe) inner join with
     sample users (dataframe) and pick the latest reviewed
     date of the sample user"""
-    chunk, id, time_filter, filename = chunk_info
-    print("\nProcessing chunk : ", id)
+    SAMPLE_USERS, chunk, id, time_filter, filename = chunk_info
+    print("\nProcessing lines chunk : ", id)
     header = False
     if not check_fobj_exists(filename):
         header = True
@@ -69,7 +66,7 @@ class IO():
         else:
             return pd.read_json(read_filename, chunksize=self.chunk_size, lines=True)
 
-    def _sample_users_no_review(self, recursive_count=0):
+    def _sample_users_no_review(self, SAMPLE_USERS, recursive_count=0):
         """ Write all sampled users who didn't write review within teh specified time range
         to 'sample_users_no_review_within_time_interval.csv' (with headers) """
         print("\nRecursive round : ", recursive_count)
@@ -82,17 +79,19 @@ class IO():
         for count, chunk in enumerate(self._set_reader(recursive_count, read_filename)):
             chunk_count = count
             # process each data frame
-            f = pool.apply_async(process_file, ((chunk, count, self.definition['time_filter'], write_filename), ))
+            f = pool.apply_async(process_file, ((SAMPLE_USERS, chunk, count, self.definition['time_filter'], write_filename), ))
             jobs.append(f)
         for job in jobs:
             job.get(timeout=120)
         if chunk_count > 0:
-            self._sample_users_no_review(recursive_count+1)
+            self._sample_users_no_review(SAMPLE_USERS, recursive_count+1)
 
     def run(self):
-        try:
-            start_time = time.time()
-            self._sample_users_no_review()
-            print("--- %s seconds ---" % (time.time() - start_time))
-        finally:
-            module_format(self.definition['name'], type=1)
+        start_time = time.time()
+        # Load sample users
+        assert check_fobj_exists(SAMPLE_USERS_FILE), "Sample users File not found in " + SAMPLE_USERS_FILE
+        SAMPLE_USERS = read_file(SAMPLE_USERS_FILE, header=SAMPLE_USERS_ID_FIELD)
+        # Run Query
+        self._sample_users_no_review(SAMPLE_USERS)
+        print("--- %s seconds ---" % (time.time() - start_time))
+        module_format(self.definition['name'], type=1)

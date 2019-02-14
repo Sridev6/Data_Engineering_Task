@@ -9,6 +9,8 @@ from etl.utils.commons import read_file, get_base
 from main.dag import DAG_MAPPER
 from etl.dag.main import Dag
 
+DEFAULT_TAR_FILE_NAME = 'yelp_dataset.tar'
+
 class ExecuteDag():
 
     def __init__(self, dag=None):
@@ -16,6 +18,10 @@ class ExecuteDag():
         self.dag_path = DAG_FOLDER + DAG_MAPPER[dag]
 
     def _start_dag(self, definition):
+        if 'decompress_and_clean' in definition:
+            definition['decompress_and_clean']['filename'] = DEFAULT_TAR_FILE_NAME
+            if len(sys.argv) > 2:
+                definition['decompress_and_clean']['filename'] = sys.argv[2]
         dag = Dag(definition, get_base(os.path.realpath(__file__), 2)
                                             + TASK_FOLDER)
         dag.run()

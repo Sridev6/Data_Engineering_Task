@@ -8,14 +8,21 @@ from etl.utils.commons import read_file, get_base
 from main.task import TASK_MAPPER
 from etl.task.main import Task
 
+DEFAULT_TAR_FILE_NAME = 'yelp_dataset.tar'
 
 class ExecuteTask():
 
     def __init__(self, task=None):
         assert task is not None and task in TASK_MAPPER, "Task configuration argument is not found!"
+        self.tar_filename = DEFAULT_TAR_FILE_NAME
         self.task_path = TASK_FOLDER + TASK_MAPPER[task]
+        if task in ['review', 'user'] and len(sys.argv) > 2:
+            self.tar_filename = sys.argv[2]
+
 
     def _run_task(self, definition):
+        if definition['name'] == 'decompress_and_clean':
+            definition['filename'] = definition['filename'].format(tar_filename=self.tar_filename)
         task = Task(definition=definition,
                     name=definition['name'])
         task.run(task.name)

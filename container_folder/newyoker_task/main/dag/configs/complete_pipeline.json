@@ -1,6 +1,7 @@
 {
   "decompress_and_clean" : {
-    "path" : "{task}/configs/decompress_and_clean.json"
+    "path" : "{task}/configs/decompress_and_clean.json",
+    "filename" : "./data/{tar_filename}"
   },
   "sample_users" : {
     "path" : "{task}/configs/sample_users.json",

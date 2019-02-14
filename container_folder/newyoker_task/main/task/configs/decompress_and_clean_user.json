@@ -1,6 +1,6 @@
 {
   "name" : "decompress_and_clean",
-  "filename" : "./data/yelp_dataset.tar",
+  "filename" : "./data/{tar_filename}",
   "to_save_path" : "/data/",
   "to_extract_files" : {"user.json" : ["user_id", "name"]}
 }

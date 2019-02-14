@@ -31,7 +31,7 @@ class IO():
             remove_file(AGGREGATED_INFO)
 
     def read_tar_file(self, filename):
-        assert check_fobj_exists(filename), "Tar File not found in " + filename
+        assert check_fobj_exists(filename), "Tar File not found : " + filename
         return tarfile.open(filename, "r")
 
     def process_file(self, inputs_to_process):
@@ -40,57 +40,53 @@ class IO():
         # File to record total records in processed files
         line_count = 0
         file_to_write = CLEANED_FILE_NAME_TEMPLATE + file_to_process
-        try:
-            # If file already exists, do not decompress and clean
-            if not os.path.isfile(file_to_write):
-                # When decompressing user file, re-write aggregate file
-                self._check_file_existence(file_to_process)
-                # open files to read and write
-                aggregated_info = open(AGGREGATED_INFO, 'a+')
-                tar = self.read_tar_file(definition['filename'])
-                write_file_obj = open(file_to_write, 'w', buffering=100 * (1024 ** 2))
-                # Extract only required files from tar
-                for member in tar:
-                    if member.name == file_to_process:
-                        # Process file object line by line
-                        fobj = tar.extractfile(member)
-                        for line in fobj:
-                            line_count += 1
-                            # Decode bytes to JSON
-                            jsonstr = line.decode('utf8').replace("','", '","')
-                            try:
-                                # Extract specific fields from JSON
-                                json_data = json.loads(jsonstr)
-                                updated_data = dict(
-                                    (k, json_data[k]) for k in definition['to_extract_files'][file_to_process])
-                                # Write NEWLINE delimited JSON along with new lines at the end
-                                write_file_obj.write(json.dumps(updated_data))
-                                write_file_obj.write('\n')
-                            except ValueError:
-                                print(jsonstr)
-                                print('Decoding JSON has failed')
-                        break
-                    # Recoup tar members to gain memory and collect garbage
-                    tar.members = []
-                    gc.collect()
-                # Close all opened files
-                write_file_obj.close()
-                tar.close()
-                # Push total rows count to the info file
-                aggregated_info.write(json.dumps({file_to_process: line_count}))
-                aggregated_info.write("\n")
-                aggregated_info.close()
-            else:
-                print(file_to_write + " Exists! Hence skipping !!")
-        except Exception as e:
-            print(e)
+        # If file already exists, do not decompress and clean
+        if not os.path.isfile(file_to_write):
+            # When decompressing user file, re-write aggregate file
+            self._check_file_existence(file_to_process)
+            # open files to read and write
+            aggregated_info = open(AGGREGATED_INFO, 'a+')
+            tar = self.read_tar_file(definition['filename'])
+            write_file_obj = open(file_to_write, 'w', buffering=100 * (1024 ** 2))
+            # Extract only required files from tar
+            for member in tar:
+                if member.name == file_to_process:
+                    # Process file object line by line
+                    fobj = tar.extractfile(member)
+                    for line in fobj:
+                        line_count += 1
+                        # Decode bytes to JSON
+                        jsonstr = line.decode('utf8').replace("','", '","')
+                        try:
+                            # Extract specific fields from JSON
+                            json_data = json.loads(jsonstr)
+                            updated_data = dict(
+                                (k, json_data[k]) for k in definition['to_extract_files'][file_to_process])
+                            # Write NEWLINE delimited JSON along with new lines at the end
+                            write_file_obj.write(json.dumps(updated_data))
+                            write_file_obj.write('\n')
+                        except ValueError:
+                            print(jsonstr)
+                            print('Decoding JSON has failed. This record will not be loaded.\n')
+                    break
+                # Recoup tar members to gain memory and collect garbage
+                tar.members = []
+                gc.collect()
+            # Close all opened files
+            write_file_obj.close()
+            tar.close()
+            # Push total rows count to the info file
+            aggregated_info.write(json.dumps({file_to_process: line_count}))
+            aggregated_info.write("\n")
+            aggregated_info.close()
+        else:
+            print(file_to_write + " Exists! Hence skipping !!")
 
     def run(self):
-        try:
-            start_time = time.time()
-            files_to_process = self.definition['to_extract_files'].keys()
-            for files in self.format_input(files_to_process):
-                self.process_file(files)
-            print("--- %s seconds ---" % (time.time() - start_time))
-        finally:
-            module_format(self.definition['name'], type=1)
+        start_time = time.time()
+        files_to_process = self.definition['to_extract_files'].keys()
+        for files in self.format_input(files_to_process):
+            self.process_file(files)
+        print("--- %s seconds ---" % (time.time() - start_time))
+        module_format(self.definition['name'], type=1)
+

@@ -7,14 +7,11 @@ from etl.modules import SAMPLE_USERS_FILE, \
     REVIEW_FILE, CLEANED_FILE_NAME_TEMPLATE, DEFAULT_LINES_CHUNK_SIZE
 from etl.utils.commons import module_format, read_file, check_fobj_exists, remove_file
 
-# Load sample users
-assert check_fobj_exists(SAMPLE_USERS_FILE), "Sample users File not found in " + SAMPLE_USERS_FILE
-SAMPLE_USERS = read_file(SAMPLE_USERS_FILE, header=SAMPLE_USERS_ID_FIELD)
 
 def process_file(chunk_info):
     """ For every review chuck (dataframe) inner
     join with sample users (dataframe)"""
-    chunk, id = chunk_info
+    SAMPLE_USERS, chunk, id = chunk_info
     print("\nProcessing lines chunk : ", id)
     header = False
     if not check_fobj_exists(SAMPLE_USERS_REVIEW_FILE):
@@ -47,22 +44,24 @@ class IO():
         assert check_fobj_exists(filename), "Cleaned Review File not found in " + filename
         return pd.read_json(filename, chunksize=self.chunk_size, lines=True)
 
-    def _sample_users_review(self):
+    def _sample_users_review(self, SAMPLE_USERS):
         """ Write all reviews of the sampled users to 'sample_users_review.csv' (with headers) """
         pool = mp.Pool(mp.cpu_count())
         # Get sample user's review
         jobs = []
         for count, chunk in enumerate(self.read_file(CLEANED_FILE_NAME_TEMPLATE + REVIEW_FILE)):
             # process each data frame
-            f = pool.apply_async(process_file, ((chunk, count), ))
+            f = pool.apply_async(process_file, ((SAMPLE_USERS, chunk, count), ))
             jobs.append(f)
         for job in jobs:
             job.get(timeout=120)
 
     def run(self):
-        try:
-            start_time = time.time()
-            self._sample_users_review()
-            print("--- %s seconds ---" % (time.time() - start_time))
-        finally:
-            module_format(self.definition['name'], type=1)
+        start_time = time.time()
+        # Load sample users
+        assert check_fobj_exists(SAMPLE_USERS_FILE), "Sample users File not found in " + SAMPLE_USERS_FILE
+        SAMPLE_USERS = read_file(SAMPLE_USERS_FILE, header=SAMPLE_USERS_ID_FIELD)
+        # Run query
+        self._sample_users_review(SAMPLE_USERS)
+        print("--- %s seconds ---" % (time.time() - start_time))
+        module_format(self.definition['name'], type=1)
