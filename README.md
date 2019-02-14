@@ -42,7 +42,8 @@ Initial contents of the folder,
  {ANY_DIRECTORY}/data/yelp_dataset.tar
   ```
 
-<br/>
+<br>
+
 <a name="execution-with-task-objects"></a>
 #### Execution with Task objects :
 
