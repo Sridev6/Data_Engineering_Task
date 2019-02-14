@@ -107,7 +107,7 @@ So, in order to run a module all we need to do is follow the above three steps a
 ```
   docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data {any_build_name} python -u main/task/execute.py {task} {yelp_filename}
 ```
-An example run command on MAC will look like,
+An example run command on MAC to run a task object with tar filename,
 
 ```
   docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data extract_module python -u main/task/execute.py review yelp_dataset_file_name.tar
@@ -149,9 +149,9 @@ So, in order to run a dag all we need to do is follow the above three steps and 
 
 <img align="centre" width="650" height="150" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_query_pipeline.jpg">
 
-An example run command on MAC will look like,
+An example run command on MAC to run dag pipeline,
 ```
-  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data run_pipeline python -u main/dag/execute.py complete_pipeline  
+  docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data run_pipeline python -u main/dag/execute.py complete_pipeline  
   ```
 
 
