@@ -149,6 +149,12 @@ So, in order to run a dag all we need to do is follow the above three steps and 
 
 <img align="centre" width="650" height="150" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_query_pipeline.jpg">
 
+An example run command on MAC will look like,
+```
+  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data run_pipeline python -u main/dag/execute.py complete_pipeline  
+  ```
+
+
 <a name="performance-test"></a>
 ## Performance Test
 
