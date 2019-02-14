@@ -91,13 +91,14 @@ Though task object can run every module independent from each other, an ETL proc
 #### Simple Pipeline :
 A simple pipeline is a series of tasks that runs in sequence. One task is dependent on another to begin execution. Following is how a simple pipeline works,
 
-![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_simple_pipeline.jpg)
+<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_simple_pipeline.jpg">
+
 
 <a name="complex-pipeline"></a>
 #### Complex Pipeline :
 It's good to have task dependancy. But there are some tasks completely independent from each other. A complex pipeline serves this purpose i.e. to run independent tasks in parallel and wait until all the parallel task has completed before moving to the next step in the pipeline. Following is how a complex pipeline can be work,
 
-![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg)
+<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg">
 
 **Note** : An advanced version can be done using Airflow. This is just a complete custom built Pythonic version to showcase object oriented programming in action.
 
@@ -109,7 +110,7 @@ Data_Engineering_Task/container_folder/newyoker_task/etl/__init__.py
 
 A sample failure notification will look like this,
 
-![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_error.png)
+<img align="centre" width="300" height="300" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_error.jpg">
 
 
 <a name="getting-started"></a>
@@ -223,11 +224,12 @@ Following are the steps to follow to run any dag,
 So, in order to run a dag all we need to do is follow the above three steps and update "{dag}" with the following python arguments,
 
 * **complete_pipeline** - This dag will run all the 4 modules as follows,
-![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complete_pipeline.jpg)
+
+<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complete_pipeline.jpg">
 
 * **query_pipeline** - This dag will only run Module 2, 3 and 4 with Module 3 and 4 in parallel. Assuming Module 1 have been already run. (Because Module 1 is a one time task. Once done, it's not required to decompress the data again.)
 
-![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_query_pipeline.jpg)
+<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_query_pipeline.jpg">
 
 <a name="performance-test"></a>
 ## Performance Test
