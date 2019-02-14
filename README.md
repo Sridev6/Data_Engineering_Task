@@ -110,7 +110,7 @@ Data_Engineering_Task/container_folder/newyoker_task/etl/__init__.py
 
 A sample failure notification will look like this,
 
-<img align="centre" width="300" height="300" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_error.jpg">
+<img align="centre" width="400" height="400" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_error.png">
 
 
 <a name="getting-started"></a>
