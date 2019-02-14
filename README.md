@@ -225,11 +225,11 @@ So, in order to run a dag all we need to do is follow the above three steps and 
 
 * **complete_pipeline** - This dag will run all the 4 modules as follows,
 
-<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complete_pipeline.jpg">
+<img align="centre" width="800" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complete_pipeline.jpg">
 
 * **query_pipeline** - This dag will only run Module 2, 3 and 4 with Module 3 and 4 in parallel. Assuming Module 1 have been already run. (Because Module 1 is a one time task. Once done, it's not required to decompress the data again.)
 
-<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_query_pipeline.jpg">
+<img align="centre" width="800" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_query_pipeline.jpg">
 
 <a name="performance-test"></a>
 ## Performance Test
