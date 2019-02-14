@@ -1,0 +1,17 @@
+{
+  "sample_users" : {
+    "path" : "{task}/configs/sample_users.json"
+  },
+  "sample_users_review" : {
+    "path" : "{task}/configs/sample_users_review.json",
+    "dependencies": [
+      "sample_users"
+    ]
+  },
+  "sample_users_no_review_within_time_interval" : {
+    "path" : "{task}/configs/sample_users_no_review_within_time_interval.json",
+    "dependencies": [
+      "sample_users"
+    ]
+  }
+}

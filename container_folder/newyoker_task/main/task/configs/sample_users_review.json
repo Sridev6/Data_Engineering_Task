@@ -1,3 +1,4 @@
 {
-  "name" : "sample_users_review"
+  "name" : "sample_users_review",
+  "chunk_lines" : 500000
 }

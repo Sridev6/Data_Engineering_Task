@@ -12,7 +12,7 @@ The exercise is designed to use Yelp dataset to complete a series of ETL tasks t
 		* [Executor](#executor)
 		* [Task](#task)
 	* [Modules](#modules)
-	* [Pipeline Layer](#pipeline-layer)
+	* [Pipeline Layer - DAG](#pipeline-layer)
 		* [Simple Pipeline](#simple-pipeline)
 		* [Complex Pipeline](#complex-pipeline)
 * [Getting Started](#getting-started)
@@ -99,6 +99,17 @@ It's good to have task dependancy. But there are some tasks completely independe
 ![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg)
 
 **Note** : An advanced version can be done using Airflow. This is just a complete custom built Pythonic version to showcase object oriented programming in action.
+
+### Notify Failures by Email
+When the pipeline features is scheduled to run on a scheduler, then when something goes wrong we need to be notified. Hence, any task failures is sent as an email to set recipients.  The email addresses can be updated here,
+ ```
+Data_Engineering_Task/container_folder/newyoker_task/etl/__init__.py
+  ```
+
+A sample failure notification will look like this,
+
+![Diagram](https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_error.png)
+
 
 <a name="getting-started"></a>
 ## Getting Started

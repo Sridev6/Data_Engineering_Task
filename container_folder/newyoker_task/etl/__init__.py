@@ -1,0 +1,1 @@
+DEFAULT_EMAIL_RECEPIENTS = ['jm.sridev@gmail.com']

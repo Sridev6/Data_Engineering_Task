@@ -1,10 +1,10 @@
-import csv, json, time, psutil, pandas as pd
+import csv, json, time, pandas as pd
 import multiprocessing as mp
 
 """Task Modules"""
 from etl.modules import SAMPLE_USERS_FILE, \
     SAMPLE_USERS_ID_FIELD, SAMPLE_USERS_REVIEW_FILE, \
-    REVIEW_FILE, CLEANED_FILE_NAME_TEMPLATE
+    REVIEW_FILE, CLEANED_FILE_NAME_TEMPLATE, DEFAULT_LINES_CHUNK_SIZE
 from etl.utils.commons import module_format, read_file, check_fobj_exists, remove_file
 
 # Load sample users
@@ -14,8 +14,9 @@ def process_file(chunk_info):
     """ For every review chuck (dataframe) inner
     join with sample users (dataframe)"""
     chunk, id = chunk_info
-    print("\nProcessing chunk : ", id)
+    print("\nProcessing lines chunk : ", id)
     header = False
+    b = n
     if not check_fobj_exists(SAMPLE_USERS_REVIEW_FILE):
         header = True
     (pd.merge(chunk, SAMPLE_USERS, on=['user_id'], how='inner')).to_csv(SAMPLE_USERS_REVIEW_FILE,
@@ -28,6 +29,10 @@ class IO():
     def __init__(self, definition):
         # Module Definition
         self.definition = definition
+        # Set number of lines to process at once
+        self.chunk_size = DEFAULT_LINES_CHUNK_SIZE
+        if 'chunk_lines' in self.definition:
+            self.chunk_size = self.definition['chunk_lines']
         # Pretty Print Module Name
         module_format(self.definition['name'])
         # Check existence
@@ -44,27 +49,17 @@ class IO():
         # Get sample user's review
         jobs = []
         for count, chunk in enumerate(
-                pd.read_json(CLEANED_FILE_NAME_TEMPLATE + REVIEW_FILE, chunksize=500000, lines=True)):
+                pd.read_json(CLEANED_FILE_NAME_TEMPLATE + REVIEW_FILE, chunksize=self.chunk_size, lines=True)):
             # process each data frame
             f = pool.apply_async(process_file, ((chunk, count), ))
             jobs.append(f)
         for job in jobs:
             job.get(timeout=120)
-        # pool = Pool(processes=mp.cpu_count())
-        # for count, chunk in enumerate(pd.read_json(CLEANED_FILE_NAME_TEMPLATE + REVIEW_FILE, chunksize=500000, lines=True)):
-        #     pool.map(process_file, ((chunk, count), ))
-        # pool.close()
-        # pool.join()
 
     def run(self):
         try:
             start_time = time.time()
-            print("This kernel has ", mp.cpu_count(),
-                  "cores and you can find the information regarding the memory usage:",
-                  psutil.virtual_memory())
             self._sample_users_review()
-            print("This kernel has ", mp.cpu_count(), "cores and you can find the information regarding the memory usage:",
-                  psutil.virtual_memory())
             print("--- %s seconds ---" % (time.time() - start_time))
         finally:
             module_format(self.definition['name'], type=1)

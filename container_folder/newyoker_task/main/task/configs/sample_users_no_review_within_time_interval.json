@@ -1,4 +1,5 @@
 {
   "name" : "sample_users_no_review_within_time_interval",
-  "time_filter" : "2017-12-31 00:00:00"
+  "time_filter" : "2017-12-31 00:00:00",
+  "chunk_lines" : 500000
 }

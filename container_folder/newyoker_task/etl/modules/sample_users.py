@@ -1,4 +1,4 @@
-import json, csv
+import json, csv, time
 
 """Task Modules"""
 from etl.utils.commons import module_format, read_file_line_by_line
@@ -42,6 +42,8 @@ class IO():
 
     def run(self):
         try:
+            start_time = time.time()
             self._sample_users()
+            print("--- %s seconds ---" % (time.time() - start_time))
         finally:
             module_format(self.definition['name'], type=1)

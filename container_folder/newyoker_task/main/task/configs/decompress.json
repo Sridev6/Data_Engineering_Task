@@ -1,5 +1,0 @@
-{
-  "name" : "decompress",
-  "filename" : "./data/yelp_dataset.tar",
-  "to_save_path" : "./data/tar_data/"
-}

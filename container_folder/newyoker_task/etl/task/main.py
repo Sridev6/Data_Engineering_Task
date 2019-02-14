@@ -2,7 +2,8 @@ import uuid
 from datetime import datetime
 from importlib import import_module
 
-from etl.utils.error_handlers import handle_errors
+"""Task Modules"""
+from etl.utils.error_handlers import handle_errors, handle_task_errors
 from etl.task import STATUSES, MODULE_FOLDER, MODULE_CLASS
 
 class Task():
@@ -49,8 +50,8 @@ class Task():
             self.current_status = self.statuses['fail']
             raise e
 
-    @handle_errors
-    def run(self):
+    @handle_task_errors
+    def run(self, task_name):
         """
         Executes any task given the
         underlying function named as "run"

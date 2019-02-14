@@ -1,10 +1,10 @@
-import csv, json, time, psutil, shutil, pandas as pd, numpy as np
+import csv, json, time, shutil, pandas as pd, numpy as np
 import multiprocessing as mp
 
 """Task Modules"""
 from etl.modules import SAMPLE_USERS_FILE, \
     SAMPLE_USERS_ID_FIELD, SAMPLE_USERS_NO_REVIEW_FOLDER, \
-    REVIEW_FILE, CLEANED_FILE_NAME_TEMPLATE
+    REVIEW_FILE, CLEANED_FILE_NAME_TEMPLATE, DEFAULT_LINES_CHUNK_SIZE
 from etl.utils.commons import module_format, read_file, check_fobj_exists, \
     delete_folder, create_directory
 
@@ -25,12 +25,17 @@ def process_file(chunk_info):
           .agg({'date' : np.max}))
     (chunk.loc[chunk['date'] < time_filter]).to_csv(filename,
                    index=True, header=header,mode='a+')
+    print("Done")
 
 class IO():
 
     def __init__(self, definition):
         # Module Definition
         self.definition = definition
+        # Set number of lines to process at once
+        self.chunk_size = DEFAULT_LINES_CHUNK_SIZE
+        if 'chunk_lines' in self.definition:
+            self.chunk_size = self.definition['chunk_lines']
         # Check for time range filters
         assert 'time_filter' in self.definition, "'time_filter' is not specified!"
         # Pretty Print Module Name
@@ -59,14 +64,14 @@ class IO():
     def _set_reader(self, recursive_count, read_filename):
         """ Switch file reader based on the order of recursive strategy """
         if recursive_count > 0:
-            return pd.read_csv(read_filename, chunksize=500000)
+            return pd.read_csv(read_filename, chunksize=self.chunk_size)
         else:
-            return pd.read_json(read_filename, chunksize=500000, lines=True)
+            return pd.read_json(read_filename, chunksize=self.chunk_size, lines=True)
 
     def _sample_users_no_review(self, recursive_count=0):
         """ Write all sampled users who didn't write review within teh specified time range
         to 'sample_users_no_review_within_time_interval.csv' (with headers) """
-        print("Recursive round : ", recursive_count)
+        print("\nRecursive round : ", recursive_count)
         pool = mp.Pool(mp.cpu_count())
         # Get sample user's review
         jobs = []
@@ -85,12 +90,7 @@ class IO():
     def run(self):
         try:
             start_time = time.time()
-            print("This kernel has ", mp.cpu_count(),
-                  "cores and you can find the information regarding the memory usage:",
-                  psutil.virtual_memory())
             self._sample_users_no_review()
-            print("This kernel has ", mp.cpu_count(), "cores and you can find the information regarding the memory usage:",
-                  psutil.virtual_memory())
             print("--- %s seconds ---" % (time.time() - start_time))
         finally:
             module_format(self.definition['name'], type=1)

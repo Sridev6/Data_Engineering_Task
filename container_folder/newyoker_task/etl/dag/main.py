@@ -86,8 +86,6 @@ class Dag():
                 self.running_tasks = [t for t in self.running_tasks if t.id != completed_task.id]
                 # check for available-to-schedule tasks
                 tasks_to_schedule = self.get_tasks_to_schedule(completed_task=completed_task)
-                print(tasks_to_schedule)
-                print(futures)
                 # each task to run is a <Task object>
                 for task in tasks_to_schedule:
                     self.running_tasks.append(task)
