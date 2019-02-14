@@ -91,14 +91,14 @@ Though task object can run every module independent from each other, an ETL proc
 #### Simple Pipeline :
 A simple pipeline is a series of tasks that runs in sequence. One task is dependent on another to begin execution. Following is how a simple pipeline works,
 
-<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_simple_pipeline.jpg">
+<img align="centre" width="500" height="200" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_simple_pipeline.jpg">
 
 
 <a name="complex-pipeline"></a>
 #### Complex Pipeline :
 It's good to have task dependancy. But there are some tasks completely independent from each other. A complex pipeline serves this purpose i.e. to run independent tasks in parallel and wait until all the parallel task has completed before moving to the next step in the pipeline. Following is how a complex pipeline can be work,
 
-<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg">
+<img align="centre" width="700" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg">
 
 **Note** : An advanced version can be done using Airflow. This is just a complete custom built Pythonic version to showcase object oriented programming in action.
 
