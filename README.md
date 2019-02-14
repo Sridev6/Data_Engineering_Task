@@ -91,7 +91,7 @@ Though task object can run every module independent from each other, an ETL proc
 #### Simple Pipeline :
 A simple pipeline is a series of tasks that runs in sequence. One task is dependent on another to begin execution. Following is how a simple pipeline works,
 
-<img align="centre" width="500" height="200" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_simple_pipeline.jpg">
+<img align="centre" width="700" height="150" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_simple_pipeline.jpg">
 
 
 <a name="complex-pipeline"></a>
