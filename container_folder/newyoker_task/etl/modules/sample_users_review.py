@@ -8,6 +8,7 @@ from etl.modules import SAMPLE_USERS_FILE, \
 from etl.utils.commons import module_format, read_file, check_fobj_exists, remove_file
 
 # Load sample users
+assert check_fobj_exists(SAMPLE_USERS_FILE), "Sample users File not found in " + SAMPLE_USERS_FILE
 SAMPLE_USERS = read_file(SAMPLE_USERS_FILE, header=SAMPLE_USERS_ID_FIELD)
 
 def process_file(chunk_info):
@@ -16,7 +17,6 @@ def process_file(chunk_info):
     chunk, id = chunk_info
     print("\nProcessing lines chunk : ", id)
     header = False
-    b = n
     if not check_fobj_exists(SAMPLE_USERS_REVIEW_FILE):
         header = True
     (pd.merge(chunk, SAMPLE_USERS, on=['user_id'], how='inner')).to_csv(SAMPLE_USERS_REVIEW_FILE,
@@ -43,13 +43,16 @@ class IO():
         if check_fobj_exists(SAMPLE_USERS_REVIEW_FILE):
             remove_file(SAMPLE_USERS_REVIEW_FILE)
 
+    def read_file(self, filename):
+        assert check_fobj_exists(filename), "Cleaned Review File not found in " + filename
+        return pd.read_json(filename, chunksize=self.chunk_size, lines=True)
+
     def _sample_users_review(self):
         """ Write all reviews of the sampled users to 'sample_users_review.csv' (with headers) """
         pool = mp.Pool(mp.cpu_count())
         # Get sample user's review
         jobs = []
-        for count, chunk in enumerate(
-                pd.read_json(CLEANED_FILE_NAME_TEMPLATE + REVIEW_FILE, chunksize=self.chunk_size, lines=True)):
+        for count, chunk in enumerate(self.read_file(CLEANED_FILE_NAME_TEMPLATE + REVIEW_FILE)):
             # process each data frame
             f = pool.apply_async(process_file, ((chunk, count), ))
             jobs.append(f)

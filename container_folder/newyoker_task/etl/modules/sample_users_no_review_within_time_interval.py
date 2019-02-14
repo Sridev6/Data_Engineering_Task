@@ -9,6 +9,7 @@ from etl.utils.commons import module_format, read_file, check_fobj_exists, \
     delete_folder, create_directory
 
 # Load sample users
+assert check_fobj_exists(SAMPLE_USERS_FILE), "SAmple users File not found in " + SAMPLE_USERS_FILE
 SAMPLE_USERS = read_file(SAMPLE_USERS_FILE, header=SAMPLE_USERS_ID_FIELD)
 
 def process_file(chunk_info):
@@ -77,6 +78,7 @@ class IO():
         jobs = []
         read_filename, write_filename = self._set_read_file(recursive_count)
         chunk_count = None
+        assert check_fobj_exists(read_filename), "File not found in " + read_filename
         for count, chunk in enumerate(self._set_reader(recursive_count, read_filename)):
             chunk_count = count
             # process each data frame

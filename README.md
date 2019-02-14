@@ -58,7 +58,7 @@ The core of the abstraction layer is a custom built Task object that can be used
 
 As explained above, there are 4 modules associated with this exercise. Every module is called by the Task object which is defined based on the task configuration file. Following are the modules and it's functions :
 
-* **Decompress and Clean** - A module to parse, clean and extract data from the tar file. Also, config parameters allow to extract specific files / JSON column data rather than all the files and JSON column from the tar file. All records in the NEWLINE delimited JSON is parsed line by line to reduce memory failures since its processing huge files ( up-to 5 GB). The decompressed, cleaned and clipped data file is written again to a NEWLINE delimited JSON file.
+* **Extract and Clean** - A module to parse, clean and extract data from the tar file. Also, config parameters allow to extract specific files / JSON column data rather than all the files and JSON column from the tar file. All records in the NEWLINE delimited JSON is parsed line by line to reduce memory failures since its processing huge files ( up-to 5 GB). The extracted, cleaned and clipped data file is written again to a NEWLINE delimited JSON file.
 
 * **Sample Users** - A module to clip X users from the extracted/cleaned user JSON file and save the results to a CSV file with headers. The X can be defined inside the configuration file for the task. The JSON file is parsed in chunk lines to avoid multiple IO operations. Note : If required, the chunk can be set to 1 to parse line by line.
 
@@ -142,7 +142,7 @@ Initial contents of the folder,
 
 We have 4 modules which can be executed individually. Following are the modules which we will run,
 
-1. Decompress and clean (Process data)
+1. Extract and clean (Process data)
 2.  Sample Users (Process data)
 3. Get all reviews of sample users (Query data)
 4. Get all user IDs who didn't write any review in the last year (Query data)
@@ -187,8 +187,8 @@ Data_Engineering_Task/container_folder/newyoker_task/main/task/configs
 
 So, in order to run a module all we need to do is follow the above three steps and update "{task}" with the following python arguments,
 
-* **review** - to decompress, clean and extract specific fields from review.json in tar file.
-* **user** - to decompress, clean and extract specific fields from user.json in tar file.
+* **review** - to extract, clean and clip specific fields from review.json in tar file.
+* **user** - to extract, clean and clip specific fields from user.json in tar file.
 * **sample_users** - to sample around 1% of the users from the cleaned_user.json file.
 * **sample_users_review** - to get all reviews of sample users.
 * **sample_users_no_review_within_time_interval** - to get all user IDs who didn't write any review in the specified time interval. The time interval is specified inside the task configuration file.
@@ -231,9 +231,26 @@ So, in order to run a dag all we need to do is follow the above three steps and 
 <a name="performance-test"></a>
 ## Performance Test
 
+Every task/module was tested on docker container with 4 cores and 8 GB RAM. Following are the performance test results for every task module,
+
+* **Extract and Clean Process**
+	* review.json file : < 200 seconds.
+	* user.json file : < 120 seconds.
+	
+**Note** : When the above 2 tasks run in parallel on different docker containers, both tasks tend to complete <250 seconds.
+
+* **Query Process**
+	* Sample Users : < 1 second.
+	* Sample Users Review : < 40 seconds.
+	* Sample Users with no review in last year : < 40 seconds.
+
+
+
 <a name="author"></a>
 ## Author
 * [Sridev Srikanth](https://linkedin.com/in/sridevsrikanth/)
 
 ## Improvements 
-* 
+* Multiple nested objected can be added to the Task object to contain state of meta data and and re-take the task for the next time when it's executed.
+
+* A scheduler can be implemented to run a dag pipeline so that there is no need for any external pipeline to schedule this task. The project can run independently on its container.

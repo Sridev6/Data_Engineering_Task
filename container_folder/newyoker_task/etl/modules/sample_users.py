@@ -1,7 +1,7 @@
 import json, csv, time
 
 """Task Modules"""
-from etl.utils.commons import module_format, read_file_line_by_line
+from etl.utils.commons import module_format, read_file_line_by_line, check_fobj_exists
 from etl.modules import AGGREGATED_INFO, USER_FILE, DEFAULT_SAMPLE_USERS, \
     CLEANED_FILE_NAME_TEMPLATE, SAMPLE_USERS_FILE
 
@@ -20,17 +20,23 @@ class IO():
 
     def _calculate_percentage(self, sample_percentage):
         """ Calculate Number of total users * (give_percentage_to_sample) """
+        assert check_fobj_exists(AGGREGATED_INFO), "Aggregate info file not found in " \
+                                                   + AGGREGATED_INFO
         info = open(AGGREGATED_INFO, 'r')
         self.to_sample_users = DEFAULT_SAMPLE_USERS
         for data in info:
             if USER_FILE in json.loads(data):
                 self.to_sample_users = int(json.loads(data)[USER_FILE] * (sample_percentage/100))
 
+    def read_fle(self, filename):
+        assert check_fobj_exists(filename), "Sample User File not found in " + filename
+        return read_file_line_by_line(filename)
+
     def _sample_users(self):
         """ Write x percentage of users to 'sample_users.csv file (with headers) '"""
         try:
             writer = None
-            for count, line in enumerate(read_file_line_by_line(CLEANED_FILE_NAME_TEMPLATE + USER_FILE)):
+            for count, line in enumerate(self.read_fle(CLEANED_FILE_NAME_TEMPLATE + USER_FILE)):
                 if count < self.to_sample_users:
                     data = json.loads(line)
                     if count == 0:

@@ -11,6 +11,8 @@ class IO():
     def __init__(self, definition):
         # Module Definition
         self.definition = definition
+        # Tar Filename
+        assert 'filename' in self.definition, "Tar file path not found!"
         # Pretty Print Module Name
         module_format(self.definition['name'])
 
@@ -28,6 +30,9 @@ class IO():
         if file_to_check == USER_FILE and check_fobj_exists(AGGREGATED_INFO):
             remove_file(AGGREGATED_INFO)
 
+    def read_tar_file(self, filename):
+        assert check_fobj_exists(filename), "Tar File not found in " + filename
+        return tarfile.open(filename, "r")
 
     def process_file(self, inputs_to_process):
         file_to_process, definition = inputs_to_process
@@ -42,7 +47,7 @@ class IO():
                 self._check_file_existence(file_to_process)
                 # open files to read and write
                 aggregated_info = open(AGGREGATED_INFO, 'a+')
-                tar = tarfile.open(definition['filename'], "r")
+                tar = self.read_tar_file(definition['filename'])
                 write_file_obj = open(file_to_write, 'w', buffering=100 * (1024 ** 2))
                 # Extract only required files from tar
                 for member in tar:
