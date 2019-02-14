@@ -98,7 +98,7 @@ A simple pipeline is a series of tasks that runs in sequence. One task is depend
 #### Complex Pipeline :
 It's good to have task dependancy. But there are some tasks completely independent from each other. A complex pipeline serves this purpose i.e. to run independent tasks in parallel and wait until all the parallel task has completed before moving to the next step in the pipeline. Following is how a complex pipeline can be work,
 
-<img align="centre" width="700" height="450" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg">
+<img align="centre" width="750" height="400" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/dag_complex_pipeline.jpg">
 
 **Note** : An advanced version can be done using Airflow. This is just a complete custom built Pythonic version to showcase object oriented programming in action.
 
