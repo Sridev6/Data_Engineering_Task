@@ -34,7 +34,7 @@ The entire task is designed to consists of 4 modules, 1 abstraction layer and 1 
 The Abstraction layer has the ability to run every module independent from each other. Also, a single module can be executed in parallel with different configurations on different docker containers to improve performance.
 
 
-<img align="centre" width="500" height="400" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_abstraction.jpg">
+<img align="centre" width="500" height="500" src="https://github.com/Sridev6/Data_Engineering_Task/blob/master/diagrams/task_abstraction.jpg">
 
 <a name="abstraction_layer"></a>
 ### Abstraction Layer
