@@ -5,7 +5,7 @@ The exercise is designed to use Yelp dataset to complete a series of ETL tasks t
 **Note** : The whole data to be processed should not be assumed to fit on memory i.e it is required to be processed line by line or in chunks.
 
 # Table of Contents 
-* [Notable Features](https://github.com/Sridev6/Data_Engineering_Task/wiki/Notable-Features)
+* [Notable Features (wiki)](https://github.com/Sridev6/Data_Engineering_Task/wiki/Notable-Features)
 * [Getting Started](#getting-started)
 	* [Prerequisites](#prerequisites)
 	* [Installing](#installing)
@@ -17,7 +17,7 @@ The exercise is designed to use Yelp dataset to complete a series of ETL tasks t
 <a name="getting-started"></a>
 ## Getting Started
 
-Some notable features of the project are documentated in the wiki which can be found here(https://github.com/Sridev6/Data_Engineering_Task/wiki/Notable-Features)
+Some notable features of the project are documentated in the wiki which can be found [here](https://github.com/Sridev6/Data_Engineering_Task/wiki/Notable-Features)
 
 To run the project we need to clone this repository into our local machine and follow the instructions given below.
 
