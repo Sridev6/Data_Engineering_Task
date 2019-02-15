@@ -1,4 +1,4 @@
-BASE_FOLDER = '/container_folder/newyoker_task'
+BASE_FOLDER = '/container_folder/newyorker_task'
 TASK_FOLDER = '/task'
 DAG_FOLDER = '/configs/'
 import os, sys

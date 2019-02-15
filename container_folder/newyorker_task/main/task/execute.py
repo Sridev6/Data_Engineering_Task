@@ -1,4 +1,4 @@
-BASE_FOLDER = '/container_folder/newyoker_task'
+BASE_FOLDER = '/container_folder/newyorker_task'
 TASK_FOLDER = '/configs/'
 import os, sys
 sys.path.append(BASE_FOLDER)

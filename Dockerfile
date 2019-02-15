@@ -5,6 +5,6 @@ RUN pip3 install -r requirements.txt
 
 COPY /container_folder ./container_folder
 
-WORKDIR /container_folder/newyoker_task/
+WORKDIR /container_folder/newyorker_task/
 
 CMD python -u main/task/execute.py

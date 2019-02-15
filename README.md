@@ -1,4 +1,4 @@
-﻿# NewYoker : Data Engineering Exercise
+﻿# NewYorker : Data Engineering Exercise
 
 The exercise is designed to use Yelp dataset to complete a series of ETL tasks that is done on python without the usage of any standard frameworks like Spark, SQL Databases. The whole program is packaged on Docker so that it's a plug play thereby avoiding dependency issues and improve processing performance.
 
@@ -75,7 +75,7 @@ Every module is dependent one other module except the decompress and clean modul
 
 A task configuration is pre-defined for every module and stored inside,
   ```
-Data_Engineering_Task/container_folder/newyoker_task/main/task/configs 
+Data_Engineering_Task/container_folder/newyorker_task/main/task/configs
  ```
  Following are the steps to follow to run any task for modules,
  
@@ -89,7 +89,7 @@ Data_Engineering_Task/container_folder/newyoker_task/main/task/configs
 ```
   3. Run docker container
 ```
-  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data {any_build_name} python -u main/task/execute.py {task}
+  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyorker_task/data {any_build_name} python -u main/task/execute.py {task}
 ```
 
 So, in order to run a module all we need to do is follow the above three steps and update "{task}" with the following python arguments,
@@ -105,12 +105,12 @@ So, in order to run a module all we need to do is follow the above three steps a
 **Important** : If tar file is named anything other than 'yelp_dataset.tar', then we can send the name of the tar file as one more argument to python script while running docker, as follows,
 
 ```
-  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data {any_build_name} python -u main/task/execute.py {task} {yelp_filename}
+  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyorker_task/data {any_build_name} python -u main/task/execute.py {task} {yelp_filename}
 ```
 An example run command on MAC to run a task object with tar filename,
 
 ```
-  docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data extract_module python -u main/task/execute.py review yelp_dataset_file_name.tar
+  docker run -v /Users/user/Desktop/data:/container_folder/newyorker_task/data extract_module python -u main/task/execute.py review yelp_dataset_file_name.tar
 ```
 
 <br>
@@ -121,7 +121,7 @@ An example run command on MAC to run a task object with tar filename,
 Similar to predefined task configurations, task we have predefined dag configurations stored inside the following directory,
 
 ```
-Data_Engineering_Task/container_folder/newyoker_task/main/dag/configs 
+Data_Engineering_Task/container_folder/newyorker_task/main/dag/configs
  ```
 
 Following are the steps to follow to run any dag,
@@ -136,7 +136,7 @@ Following are the steps to follow to run any dag,
 ```
   3. Run docker container
 ```
-  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyoker_task/data {any_build_name} python -u main/dag/execute.py {dag}
+  docker run -v /{LOCAL_DIRECTORY_TO_DATA_FOLDER}/data:/container_folder/newyorker_task/data {any_build_name} python -u main/dag/execute.py {dag}
   ```
   
 So, in order to run a dag all we need to do is follow the above three steps and update "{dag}" with the following python arguments,
@@ -151,7 +151,7 @@ So, in order to run a dag all we need to do is follow the above three steps and 
 
 An example run command on MAC to run dag pipeline,
 ```
-  docker run -v /Users/user/Desktop/data:/container_folder/newyoker_task/data run_pipeline python -u main/dag/execute.py complete_pipeline  
+  docker run -v /Users/user/Desktop/data:/container_folder/newyorker_task/data run_pipeline python -u main/dag/execute.py complete_pipeline
   ```
 
 
