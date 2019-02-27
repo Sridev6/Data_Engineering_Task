@@ -1,4 +1,4 @@
-﻿# NewYorker : Data Engineering Exercise
+﻿# Data Engineering Exercise
 
 The exercise is designed to use Yelp dataset to complete a series of ETL tasks that is done on python without the usage of any standard frameworks like Spark, SQL Databases. The whole program is packaged on Docker so that it's a plug play thereby avoiding dependency issues and improve processing performance.
 
