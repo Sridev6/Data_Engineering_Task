@@ -1,6 +1,6 @@
 ﻿# Data Engineering Exercise
 
-The exercise is designed to use Yelp dataset to complete a series of ETL tasks that is done on python without the usage of any standard frameworks like Spark, SQL Databases. The whole program is packaged on Docker so that it's a plug play thereby avoiding dependency issues and improve processing performance.
+The exercise is designed to use [Yelp dataset](https://www.yelp.com/dataset/download) to complete a series of ETL tasks that is done on python without the usage of any standard frameworks like Spark, SQL Databases. The whole program is packaged on Docker so that it's a plug play thereby avoiding dependency issues and improve processing performance.
 
 **Note** : The whole data to be processed should not be assumed to fit on memory i.e it is required to be processed line by line or in chunks.
 
